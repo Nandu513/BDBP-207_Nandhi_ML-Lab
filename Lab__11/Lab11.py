@@ -1,35 +1,7 @@
 import pandas as pd
 import numpy as np
-
-# def scale(X):
-#     """
-#     Standardizes the data in the array X.
-#
-#     Parameters:
-#         X (numpy.ndarray): Features array of shape (n_samples, n_features).
-#
-#     Returns:
-#         numpy.ndarray: The standardized features array.
-#     """
-#     # Calculate the mean and standard deviation of each feature
-#     mean = np.mean(X, axis=0)
-#     std = np.std(X, axis=0)
-#
-#     # Standardize the data
-#     X = (X - mean) / std
-#
-#     return X
-#
-# def load_data(df):
-#     df=pd.read_csv(df)
-#     print(df.head())
-#     df.drop('id', axis=1, inplace=True)
-#     X = df.drop(['diagnosis'],axis=1).values
-#     y = df['diagnosis'].values.reshape(-1, 1)
-#
-#     X=scale(X)
-#
-#     return X,y
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 
 class Node():
@@ -295,13 +267,6 @@ class DecisionTree():
                 return self.make_prediction(x, node.left)
             else:
                 return self.make_prediction(x, node.right)
-
-
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
 
 def scale(X):
     """
