@@ -42,6 +42,7 @@ def main():
 
     # Print the R^2 score
     print(f"R^2 score: {r2}")
+    print("Coefficients (theta values):", reg_model.coef_)
 
 # Entry point for the script
 if __name__ == '__main__':
