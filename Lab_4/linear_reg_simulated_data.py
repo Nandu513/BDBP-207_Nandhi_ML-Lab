@@ -107,6 +107,27 @@ def linear_regression(data):
     print(f"R² Score: {r2_score:.4f}")  # R-squared score (higher is better)
     print("-" * 50)
 
+    return y_test,y_pred
+
+def plot_predictions(y_true, y_pred):
+    """
+    Plot predicted vs actual target values.
+
+    Parameters:
+        y_true (array-like): Actual target values.
+        y_pred (array-like): Predicted target values.
+    """
+    plt.figure(figsize=(8, 6))
+    plt.scatter(y_true, y_pred, alpha=0.6, color='teal', edgecolor='k')
+    plt.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'r--', lw=2, label='Ideal Fit')
+    plt.xlabel('Actual Disease Score')
+    plt.ylabel('Predicted Disease Score')
+    plt.title('Actual vs Predicted Disease Score (Gradient Descent)')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
 def main():
     """
     Main function to execute the workflow.
@@ -114,7 +135,8 @@ def main():
     data = r"C:/Users/Naga Nandi Reddy/Downloads/simulated_data_multiple_linear_regression_for_ML.csv"
     print("\nLoading Dataset from:", data)
     eda(data)  # Perform EDA
-    linear_regression(data)  # Train & Evaluate Model
+    y_test,y_pred=linear_regression(data)  # Train & Evaluate Model
+    plot_predictions(y_test, y_pred)
 
 if __name__ == "__main__":
     main()
