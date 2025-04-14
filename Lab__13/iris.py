@@ -92,7 +92,10 @@ def random_forest(x_train, x_test, y_train, y_test):
         'n_estimators': [100],
         'max_depth': [5, 7, 10, None],
         'max_features': ['sqrt', 'log2'],
-        'ccp_alpha': [0.0, 0.001, 0.01]
+        'ccp_alpha': [0.0, 0.001, 0.01],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4],
+        'bootstrap': [True, False]
     }
 
     grid = GridSearchCV(rf, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
