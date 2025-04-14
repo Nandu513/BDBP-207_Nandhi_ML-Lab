@@ -72,7 +72,8 @@ def random_forest(x_train, x_test, y_train, y_test):
     param_grid = {
         'n_estimators': [50, 100, 150],
         'max_depth': [3, 4, 5, 7, 8, 9, None],
-        'max_features': ['sqrt', 'log2']
+        'max_features': ['sqrt', 'log2'],
+        'ccp_alpha': [0.0, 0.001, 0.01]
     }
 
     grid = GridSearchCV(rf, param_grid, cv=5, scoring='r2', n_jobs=-1)
