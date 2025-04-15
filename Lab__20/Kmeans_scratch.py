@@ -81,9 +81,18 @@ class Kmeans:
         numpy.ndarray: array containing the index of the centroid for each point
         """
         self.initialize_centroids(X)  # initialize the centroids
+        errors = []
         for i in range(self.iterations):
             points = self.assign_points_centroids(X)  # assign each point to the nearest centroid
             new_centroids = self.compute_mean(X, points)  # compute the new centroids based on the mean of their points
+
+            # Track movement (cost = sum of distances of points to their centroid)
+            cost = 0
+            for j in range(self.K):
+                cluster_points = X[points == j]
+                if len(cluster_points) > 0:
+                    cost += np.sum((cluster_points - new_centroids[j]) ** 2)
+            errors.append(cost)
 
             # Check for convergence
             if np.allclose(self.centroids, new_centroids, atol=self.tolerance):
@@ -97,7 +106,7 @@ class Kmeans:
             assert max(points) < self.K, "Cluster index should be less than K."
             assert min(points) >= 0, "Cluster index should be non-negative."
 
-        return self.centroids, points
+        return self.centroids, points, errors
 
 
     def predict(self, X):
