@@ -46,6 +46,23 @@ def plot_clusters(X, y_pred, y_true):
     plt.tight_layout()
     plt.show()
 
+def plot_clusters_3D(X, y_pred, centroids):
+    from mpl_toolkits.mplot3d import Axes3D
+    pca = PCA(n_components=3)
+    X_3d = pca.fit_transform(X)
+    centroids_3d = pca.transform(centroids)
+
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+
+    ax.scatter(X_3d[:, 0], X_3d[:, 1], X_3d[:, 2], c=y_pred, cmap='viridis', s=50, alpha=0.6)
+    ax.scatter(centroids_3d[:, 0], centroids_3d[:, 1], centroids_3d[:, 2], c='red', marker='X', s=200, label='Centroids')
+    ax.set_title("KMeans Clusters (3D PCA View)")
+    ax.set_xlabel("PCA 1")
+    ax.set_ylabel("PCA 2")
+    ax.set_zlabel("PCA 3")
+    ax.legend()
+    plt.show()
 
 def main():
     # 1. Load and preprocess the dataset
@@ -53,7 +70,7 @@ def main():
 
     # 2. Apply KMeans clustering
     kmeans = Kmeans(K=3, tolerance=1e-6, iterations=20)
-    centroids, y_pred = kmeans.fit(X_scaled)
+    centroids, y_pred, errors = kmeans.fit(X_scaled)
 
     # 3. Evaluate the clustering performance
     evaluate_clustering(y_true, y_pred)
@@ -61,6 +78,18 @@ def main():
     # 4. Plot the clusters
     plot_clusters(X_scaled, y_pred, y_true)
 
+    # 5. Plot in 3D
+    plot_clusters_3D(X_scaled, y_pred, centroids)
+
+    # 6. Plot convergence graph
+    plt.figure(figsize=(6, 4))
+    plt.plot(range(1, len(errors) + 1), errors, marker='o')
+    plt.title("KMeans Convergence")
+    plt.xlabel("Iteration")
+    plt.ylabel("Sum of Squared Distances (Cost)")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == "__main__":
     main()
